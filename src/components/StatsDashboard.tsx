@@ -11,6 +11,8 @@ import {
   Tooltip,
   Legend,
   TimeScale,
+  type ChartData,
+  type TooltipItem,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
@@ -37,7 +39,7 @@ interface StatsDashboardProps {
 }
 
 export default function StatsDashboard({ measurements }: StatsDashboardProps) {
-  const [chartData, setChartData] = useState<any>(null);
+  const [chartData, setChartData] = useState<ChartData<'line'> | null>(null);
 
   useEffect(() => {
     if (measurements.length === 0) {
@@ -47,12 +49,12 @@ export default function StatsDashboard({ measurements }: StatsDashboardProps) {
 
     // Préparer les données pour Chart.js
     const heartRateData = measurements.map(m => ({
-      x: new Date(m.timestamp),
+      x: m.timestamp,
       y: m.heartRate
     }));
 
     const respiratoryRateData = measurements.map(m => ({
-      x: new Date(m.timestamp),
+      x: m.timestamp,
       y: m.respiratoryRate
     }));
 
@@ -113,7 +115,7 @@ export default function StatsDashboard({ measurements }: StatsDashboardProps) {
         titleColor: 'white',
         bodyColor: 'white',
         callbacks: {
-          title: function(context: any) {
+          title: function(context: TooltipItem<'line'>[]) {
             const date = new Date(context[0].parsed.x);
             return date.toLocaleString('fr-FR');
           },

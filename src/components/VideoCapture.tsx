@@ -25,13 +25,11 @@ function VideoCapture({ onMeasurementsUpdate }: VideoCaptureProps) {
   const [error, setError] = useState<string | null>(null);
   const [currentHeartRate, setCurrentHeartRate] = useState<number | null>(null);
   const [currentRespiratoryRate, setCurrentRespiratoryRate] = useState<number | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [firstValueReceived, setFirstValueReceived] = useState(false);
   const [countdown, setCountdown] = useState(INITIAL_COLLECTION_SECONDS);
   const [sessionTime, setSessionTime] = useState(0);
   const [faceBox, setFaceBox] = useState<faceapi.Box | null>(null);
   const [faceOk, setFaceOk] = useState(false);
-  const [trunkBox, setTrunkBox] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
   const [instruction, setInstruction] = useState<string>("");
 
   const videoProcessor = useRef(new VideoProcessor());
@@ -63,8 +61,8 @@ function VideoCapture({ onMeasurementsUpdate }: VideoCaptureProps) {
         videoRef.current.play();
       }
       setHasPermission(true);
-    } catch (err) {
-      setError("Impossible d'accéder à la caméra. Veuillez autoriser l'accès.");
+    } catch {
+      setError("Impossible d&apos;accéder à la caméra. Veuillez autoriser l&apos;accès.");
       setHasPermission(false);
     }
   }, []);
@@ -109,7 +107,7 @@ function VideoCapture({ onMeasurementsUpdate }: VideoCaptureProps) {
         width: Math.min(box.width * 1.4, overlay.width - box.x),
         height: trunkHeight,
       };
-      setTrunkBox(trunk);
+      // setTrunkBox(trunk); // This line was removed as per the edit hint
       ctx.strokeStyle = "#3b82f6";
       ctx.lineWidth = 2;
       ctx.strokeRect(trunk.x, trunk.y, trunk.width, trunk.height);
@@ -197,7 +195,6 @@ function VideoCapture({ onMeasurementsUpdate }: VideoCaptureProps) {
       return;
     }
     setIsRecording(true);
-    setIsAnalyzing(true);
     setFirstValueReceived(false);
     videoProcessor.current.reset();
     setCurrentHeartRate(null);
@@ -210,7 +207,6 @@ function VideoCapture({ onMeasurementsUpdate }: VideoCaptureProps) {
   // Arrêter l'enregistrement
   const stopRecording = useCallback(() => {
     setIsRecording(false);
-    setIsAnalyzing(false);
     setFirstValueReceived(false);
     setCountdown(INITIAL_COLLECTION_SECONDS);
     setSessionTime(0);
@@ -313,7 +309,7 @@ function VideoCapture({ onMeasurementsUpdate }: VideoCaptureProps) {
       {hasPermission === false && !error && (
         <div className="bg-yellow-500 text-black p-4 rounded-lg max-w-2xl">
           <p className="font-semibold">Accès à la caméra requis</p>
-          <p>Veuillez autoriser l'accès à votre caméra pour commencer la surveillance.</p>
+          <p>Veuillez autoriser l&apos;accès à votre caméra pour commencer la surveillance.</p>
         </div>
       )}
       {/* Feedback d'analyse en cours */}
