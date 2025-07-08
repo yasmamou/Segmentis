@@ -13,6 +13,7 @@
     "@tensorflow/tfjs-backend-webgl": "^4.22.0",
     "@tensorflow/tfjs-core": "^4.22.0",
     "chart.js": "^4.5.0",
+    "chartjs-adapter-date-fns": "^3.0.0",
     "date-fns": "^4.1.0",
     "face-api.js": "^0.22.2",
     "next": "15.3.5",
