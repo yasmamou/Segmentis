@@ -168,7 +168,7 @@ export default function Home() {
                 <h3 className="font-semibold text-green-400 mb-2">Surveillance Respiratoire</h3>
                 <p className="text-gray-300 text-sm">
                   La fréquence respiratoire est détectée en analysant les mouvements subtils 
-                  de la poitrine. L'algorithme utilise des techniques de traitement d'image 
+                  de la poitrine. L&apos;algorithme utilise des techniques de traitement d&apos;image 
                   avancées pour isoler ces mouvements.
                 </p>
               </div>
